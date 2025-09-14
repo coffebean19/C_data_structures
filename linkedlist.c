@@ -49,5 +49,15 @@ int main(void) {
 
     printLinkedList(top);
 
+    // Free allocated memory
+    struct Node * current = top;
+    struct Node * next;
+
+    while (current != NULL) {
+        next = current->next;
+        free(current);
+        current = next;
+    }
+
     return 0;
 }
