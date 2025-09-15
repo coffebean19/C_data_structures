@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+
 struct Node {
     int data;
     struct Node * next;
 };
+
 
 // Create a new node
 struct Node * createNode(int value) {
@@ -21,36 +24,79 @@ struct Node * createNode(int value) {
     return newNode;
 }
 
-// List the entire linked list
-void printLinkedList(struct Node * node) {
-    int nodeNr = 1;
-    struct Node * current = node;
+// Insert new node in middle of linked list
+struct Node * insertNode(struct Node * node, int value) {
+    struct Node * newNode = (struct Node *)malloc(sizeof(struct Node));
     
-    printf("---Linked list---\n\n");
-    
-    while (current != NULL){
-        printf("Node #%d: %d\n", nodeNr++, current->data);
-        current = current->next;
-    }
-    printf("\n--- END ---\n\n");
+    newNode->next = node->next;
+    newNode->data = value;
+    node->next = newNode;
+
+    return newNode;
 }
 
-int main(void) {
-    struct Node * top = createNode(3);
-    struct Node * second = createNode(9);
-    struct Node * third = createNode(21);
-    struct Node * fourth = createNode(7);
-    struct Node * fifth = createNode(17);
+// List the entire linked list
+// void printLinkedList(struct Node * node) {
+//     int nodeNr = 1;
+//     struct Node * current = node;
+    
+//     printf("---Linked list---\n\n");
+    
+//     while (current != NULL){
+//         printf("Node #%d: %d\n", nodeNr++, current->data);
+//         current = current->next;
+//     }
+//     printf("\n--- END ---\n\n");
+// }
 
-    top->next = second;
-    second->next = third;
-    third->next = fourth;
-    fourth->next = fifth;
+struct LinkedList {
+    struct Node * top;
+    struct Node * last;
+    struct Node * current;
+};
 
-    printLinkedList(top);
+struct LinkedList * createList() {
+    struct LinkedList * list = (struct LinkedList *)malloc(sizeof(struct LinkedList));
 
+    return list;
+}
+
+void addNode(struct LinkedList * self, int value) {
+    if (self->top == NULL) {
+        self->top = createNode(value);
+        self->last = self->top;
+        self->current = self->top;
+    } else {
+        if (self->last == self->top) {
+            struct Node * nextNode = createNode(value);
+            self->last = nextNode;
+            self->top->next = nextNode;
+        } else {
+            struct Node * nextNode = createNode(value);
+            struct Node * currentNode = self->last;
+            currentNode->next = nextNode;
+            self->last = nextNode;
+        }
+    }
+}
+
+void returnToListTop(struct LinkedList * self) {
+    self->current = self->top;
+}
+
+void nextInList(struct LinkedList * self) {
+    if (self->current != self->last) {
+        self->current = self->current->next;
+    }
+}
+
+void printCurrentNode(struct LinkedList * self) {
+    printf("Current node: %d\n", self->current->data);
+}
+
+void freeList(struct LinkedList * self) {
     // Free allocated memory
-    struct Node * current = top;
+    struct Node * current = self->top;
     struct Node * next;
 
     while (current != NULL) {
@@ -58,6 +104,36 @@ int main(void) {
         free(current);
         current = next;
     }
+}
+
+void printEntireList(struct LinkedList * self) {
+    struct Node * current = self->top;
+    int node_i = 1;
+    printf("--- START LIST ---\n\n");
+    while (current != NULL) {
+        printf("\tNode #%d: %d\n", node_i++, current->data);
+        current = current->next;
+    }
+    printf("\n--- END LIST ---\n");
+}
+
+int main(void) {
+    struct LinkedList * list = createList();
+    addNode(list, 3);
+    addNode(list, 4);
+    addNode(list, 21);
+    addNode(list, 1);
+    addNode(list, 7);
+
+    printCurrentNode(list);
+    nextInList(list);
+    nextInList(list);
+    printCurrentNode(list);
+
+    addNode(list, 17);
+    printEntireList(list);
+
+    freeList(list);
 
     return 0;
 }
