@@ -8,5 +8,9 @@ int main() {
     addNode(list, 12);
     addNode(list, 26);
 
+    printEntireList(list);
+
+    freeList(list);
+
     return 0;
 }

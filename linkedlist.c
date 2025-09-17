@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "linkedlist.h"
 
 
 struct Node {
@@ -24,6 +24,7 @@ struct Node * createNode(int value) {
     return newNode;
 }
 
+// DEPRECATED
 // Insert new node in middle of linked list
 struct Node * insertNode(struct Node * node, int value) {
     struct Node * newNode = (struct Node *)malloc(sizeof(struct Node));
@@ -49,11 +50,7 @@ struct Node * insertNode(struct Node * node, int value) {
 //     printf("\n--- END ---\n\n");
 // }
 
-struct LinkedList {
-    struct Node * top;
-    struct Node * last;
-    struct Node * current;
-};
+
 
 struct LinkedList * createList() {
     struct LinkedList * list = (struct LinkedList *)malloc(sizeof(struct LinkedList));
@@ -111,29 +108,32 @@ void printEntireList(struct LinkedList * self) {
     int node_i = 1;
     printf("--- START LIST ---\n\n");
     while (current != NULL) {
-        printf("\tNode #%d: %d\n", node_i++, current->data);
+        printf("Node #%d: %d\n", node_i++, current->data);
         current = current->next;
     }
     printf("\n--- END LIST ---\n");
 }
 
-int main(void) {
-    struct LinkedList * list = createList();
-    addNode(list, 3);
-    addNode(list, 4);
-    addNode(list, 21);
-    addNode(list, 1);
-    addNode(list, 7);
+// int main(void) {
+//     struct LinkedList * list = createList();
+//     addNode(list, 3);
+//     addNode(list, 4);
 
-    printCurrentNode(list);
-    nextInList(list);
-    nextInList(list);
-    printCurrentNode(list);
+//     printEntireList(list);
 
-    addNode(list, 17);
-    printEntireList(list);
+//     addNode(list, 21);
+//     addNode(list, 1);
+//     addNode(list, 7);
 
-    freeList(list);
+//     printCurrentNode(list);
+//     nextInList(list);
+//     nextInList(list);
+//     printCurrentNode(list);
 
-    return 0;
-}
+//     addNode(list, 17);
+//     printEntireList(list);
+
+//     freeList(list);
+
+//     return 0;
+// }
