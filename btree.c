@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*
+    Great resource on b-trees
+    https://thelinuxcode.com/binary-tree-c/
+*/ 
+
 struct Node {
     int data;
     struct Node * left;
@@ -8,40 +13,65 @@ struct Node {
 };
 
 struct Node * createNode(int value) {
-    struct Node * newNode = (struct Node*)malloc(sizeof(struct Node));
+    struct Node * newNode = malloc(sizeof(struct Node));
     newNode->data = value;
     newNode->left=NULL;
     newNode->right=NULL;
+
     return newNode;
 }
 
+// My original insertNode functions
 void insertNode(struct Node * parent, struct Node * child) {
     if (parent->left == NULL) {
         parent->left = child;
-    } else {
+    } 
+    else {
         parent->right = child;
     }
 }
 
+// A recursive insert given by Linux Code. Pretty neat.
+void recursiveInsert(struct Node * root, int value) {
+    if (root == NULL) {
+        root = createNode(value);
+        return;
+    }
+
+    if (value <= root->data) {
+        recursiveInsert(root->left, value);
+    } 
+    else {
+        recursiveInsert(root->right, value);
+    } 
+}
+
+void printInOrder(struct Node* root) {
+
+  if (root == NULL) return;
+
+  // left subtree
+  printInOrder(root->left);     
+
+  // root 
+  printf("%d ", root->data);   
+
+  // right subtree 
+  printInOrder(root->right);  
+}
+
 int main() {
-    struct Node * root = createNode(4);
-    struct Node * node = createNode(5);
-    struct Node * node_two = createNode(6);
-    struct Node * node_three = createNode(12);
-    struct Node * node_four = createNode(76);
-    struct Node * node_five = createNode(2);
-    struct Node * node_sixe = createNode(10);
+    struct Node * root = NULL;
+    recursiveInsert(root, 1);
+    recursiveInsert(root, 2);
+    recursiveInsert(root, 3);
+    recursiveInsert(root, 1);
+    recursiveInsert(root, 5);
+    recursiveInsert(root, 8);
+    recursiveInsert(root, 4);
 
-    insertNode(root, node);
-    insertNode(root, node_two);
-    insertNode(node, node_three);
-    insertNode(node, node_four);
-    insertNode(node_two, node_five);
-    insertNode(node_two, node_sixe);
 
-    printf("       %d\n", root->data);
-    printf("   %d      %d\n", root->left->data, root->right->data);
-    printf("%d   %d   %d   %d\n", root->left->left->data,root->left->right->data,root->right->left->data,root->right->right->data);
-
+    printInOrder(root);
+    // printf("%d\n", root->data);
     return 0;
 }
