@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// void printPointerExample();
+// void addTwo(int value);
+// void addTwoP(int* value);
+
 typedef struct Node {
     int value;
     struct Node *left;
@@ -65,7 +69,6 @@ void recursiveInsert(Node **root, int value) {
     }
 }
 
-// TODO: Fix this. This is horrible.
 void freeTree(Node **root) {
 
 
@@ -118,16 +121,14 @@ int main() {
     recursiveInsert(temp_node, 4);
     recursiveInsert(temp_node, 7);
     recursiveInsert(temp_node, 1);
-
     printTree(node1);
 
-    free(node1);
-    free(node2);
-    free(node3);
-    free(node4);
-    free(node5);
-    free(node6);
-    free(node7);
-    
+    // free(node1);
+    // free(node2);
+    // free(node3);
+    // free(node4);
+    // free(node5);
+    // freeTree(&node1);
+    // printTree(node1);
     return 0;
 }
