@@ -24,20 +24,27 @@ void printTabs(int level) {
     }
 }
 
+void printDashes(int level) {
+    for (int i = 0; i < level; i++) {
+        printf("\t");
+    }
+    printf("+ ");
+}
+
 void printTreeRec(Node *root, int level) {
     if (root == NULL) {
-        printTabs(level);
+        printDashes(level);
         printf("---<empty>---\n");
         return;
     }
-    printTabs(level);
-    printf("value = %d\n", root->value);
+    printTabs(level-1);
+    printf("(value = %d)\n", root->value);
     
-    printTabs(level);
+    printDashes(level);
     printf("left\n");
     printTreeRec(root->left, level+1);
     
-    printTabs(level);
+    printDashes(level);
     printf("right\n");
     printTreeRec(root->right, level+1);
 
@@ -128,6 +135,6 @@ int main() {
     free(node5);
     free(node6);
     free(node7);
-    
+
     return 0;
 }
